@@ -1,11 +1,11 @@
 "use strict"
 
 function renderCoffee(coffee) {
-    var html = '<tr class="coffee">';
-    html += '<td>' + coffee.id + '</td>';
-    html += '<td>' + coffee.name + '</td>';
-    html += '<td>' + coffee.roast + '</td>';
-    html += '</tr>';
+    var html = '<div class="coffee row align-items-center col-6 p-2">';
+    html += '<div class="d-none">' + coffee.id + '</div>';
+    html += '<h3>' + coffee.name + '</h3>';
+    html += '<div class="ml-2 text-secondary">' + coffee.roast + '</div>';
+    html += '</div>';
 
     return html;
 }
@@ -24,6 +24,8 @@ function updateCoffees(e) {
     var filteredCoffees = [];
     coffees.forEach(function(coffee) {
         if (coffee.roast === selectedRoast) {
+            filteredCoffees.push(coffee);
+        } else if (selectedRoast === 'all') {
             filteredCoffees.push(coffee);
         }
     });
