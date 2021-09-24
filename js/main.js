@@ -3,8 +3,8 @@
 function renderCoffee(coffee) {
     var html = '<div class="coffee row align-items-center col-6 p-2">';
     html += '<div class="d-none">' + coffee.id + '</div>';
-    html += '<h3>' + coffee.name + '</h3>';
-    html += '<div class="ml-2 text-secondary">' + coffee.roast + '</div>';
+    html += '<h3 class="coffee-name">' + coffee.name + '</h3>';
+    html += '<div class="ml-2 coffee-roast">' + coffee.roast + '</div>';
     html += '</div>';
 
     return html;
