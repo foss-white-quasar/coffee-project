@@ -12,7 +12,6 @@ function renderCoffee(coffee) {
 
 function renderCoffees(coffees) {
     var html = '';
-    // for(var i = coffees.length - 1; i >= 0; i--) {
     for(var i = 0; i <= coffees.length - 1 ; i++) {
         html += renderCoffee(coffees[i]);
     }
@@ -66,21 +65,38 @@ var coffees = [
 var tbody = document.querySelector('#coffees');
 var submitButton = document.querySelector('#submit');
 var roastSelection = document.querySelector('#roast-selection');
-// var coffeeSearch = document.querySelector('#coffee-search');
 var asTyped = document.querySelector('#coffee-search'); //adding this for bullet pt 4
 var addBtn = document.getElementById("add"); //kh - grabbing add button
 
 tbody.innerHTML = renderCoffees(coffees);
 
 roastSelection.addEventListener('change', updateCoffees);
-// coffeeSearch.addEventListener('change', searchCoffees);
 asTyped.addEventListener('input', searchCoffees);
 submitButton.addEventListener('click', searchCoffees);
 
+
+
 addBtn.addEventListener("click", function(e) {
     e.preventDefault();
+    var localStCoffeeArray = coffees;
     var bonusInput = document.querySelector('#bonus-coffee-input').value;
     var bonusRoastType = document.querySelector('#bonus-roast-selection').value;
-    coffees.push({id: (coffees.length + 1), name: bonusInput, roast: bonusRoastType});
-    tbody.innerHTML = renderCoffees(coffees);
+    // coffees.push({id: (coffees.length + 1), name: bonusInput, roast: bonusRoastType});
+    localStCoffeeArray.push({id: (coffees.length + 1), name: bonusInput, roast: bonusRoastType});
+
+    localStorage.setItem('newCoffeesArray', JSON.stringify(localStCoffeeArray));
+    JSON.parse(localStorage.getItem('newCoffeesArray'));
+
+    tbody.innerHTML = renderCoffees(JSON.parse(localStorage.getItem('newCoffeesArray')));
 })
+
+// var bonusInput2 = bonusInput.value;
+// var bonusRoastType2 = bonusRoastType.value;
+// coffees.push({id: (coffees.length + 1), name: bonusInput2, roast: bonusRoastType2});
+// tbody.innerHTML = renderCoffees(coffees);
+// var localSt = [];
+// localSt = coffees.push({id: (coffees.length + 1), name: bonusInput2, roast: bonusRoastType2});
+// localStorage.setItem('localSt', JSON.stringify(coffees[coffees.length -1]));
+// console.log(localSt);
+// var retrievedObj = localStorage.getItem('localSt');
+// tbody.innerHTML = renderCoffees(coffees);
