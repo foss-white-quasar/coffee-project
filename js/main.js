@@ -12,7 +12,6 @@ function renderCoffee(coffee) {
 
 function renderCoffees(coffees) {
     var html = '';
-    // for(var i = coffees.length - 1; i >= 0; i--) {
     for(var i = 0; i <= coffees.length - 1 ; i++) {
         html += renderCoffee(coffees[i]);
     }
@@ -30,7 +29,7 @@ function updateCoffees(e) {
             filteredCoffees.push(coffee);
         }
     });
-    tbody.innerHTML = renderCoffees(filteredCoffees);
+    coffeesDiv.innerHTML = renderCoffees(filteredCoffees);
 }
 
 function searchCoffees(e) {
@@ -42,7 +41,7 @@ function searchCoffees(e) {
             filteredCoffees.push(coffee);
         }
     });
-    tbody.innerHTML = renderCoffees(filteredCoffees);
+    coffeesDiv.innerHTML = renderCoffees(filteredCoffees);
 }
 
 // from http://www.ncausa.org/About-Coffee/Coffee-Roasts-Guide
@@ -63,24 +62,32 @@ var coffees = [
     {id: 14, name: 'French', roast: 'dark'},
 ];
 
-var tbody = document.querySelector('#coffees');
+if (localStorage.getItem('newCoffeesArray')) {
+    coffees = JSON.parse(localStorage.getItem('newCoffeesArray'));
+}
+
+var coffeesDiv = document.querySelector('#coffees');
 var submitButton = document.querySelector('#submit');
 var roastSelection = document.querySelector('#roast-selection');
-// var coffeeSearch = document.querySelector('#coffee-search');
 var asTyped = document.querySelector('#coffee-search'); //adding this for bullet pt 4
 var addBtn = document.getElementById("add"); //kh - grabbing add button
 
-tbody.innerHTML = renderCoffees(coffees);
+coffeesDiv.innerHTML = renderCoffees(coffees);
 
 roastSelection.addEventListener('change', updateCoffees);
-// coffeeSearch.addEventListener('change', searchCoffees);
 asTyped.addEventListener('input', searchCoffees);
 submitButton.addEventListener('click', searchCoffees);
 
 addBtn.addEventListener("click", function(e) {
     e.preventDefault();
+
     var bonusInput = document.querySelector('#bonus-coffee-input').value;
     var bonusRoastType = document.querySelector('#bonus-roast-selection').value;
+
     coffees.push({id: (coffees.length + 1), name: bonusInput, roast: bonusRoastType});
-    tbody.innerHTML = renderCoffees(coffees);
-})
+
+    localStorage.setItem('newCoffeesArray', JSON.stringify(coffees));
+    var test = JSON.parse(localStorage.getItem('newCoffeesArray'));
+
+    coffeesDiv.innerHTML = renderCoffees(test);
+});
