@@ -11,6 +11,9 @@ function renderCoffee(coffee) {
 }
 
 function renderCoffees(coffees) {
+    if (localStorage.getItem('newCoffeesArray')) {
+        coffees = JSON.parse(localStorage.getItem('newCoffeesArray'));
+    }
     var html = '';
     for(var i = 0; i <= coffees.length - 1 ; i++) {
         html += renderCoffee(coffees[i]);
@@ -29,7 +32,7 @@ function updateCoffees(e) {
             filteredCoffees.push(coffee);
         }
     });
-    tbody.innerHTML = renderCoffees(filteredCoffees);
+    coffeesDiv.innerHTML = renderCoffees(filteredCoffees);
 }
 
 function searchCoffees(e) {
@@ -41,7 +44,7 @@ function searchCoffees(e) {
             filteredCoffees.push(coffee);
         }
     });
-    tbody.innerHTML = renderCoffees(filteredCoffees);
+    coffeesDiv.innerHTML = renderCoffees(filteredCoffees);
 }
 
 // from http://www.ncausa.org/About-Coffee/Coffee-Roasts-Guide
@@ -62,13 +65,13 @@ var coffees = [
     {id: 14, name: 'French', roast: 'dark'},
 ];
 
-var tbody = document.querySelector('#coffees');
+var coffeesDiv = document.querySelector('#coffees');
 var submitButton = document.querySelector('#submit');
 var roastSelection = document.querySelector('#roast-selection');
 var asTyped = document.querySelector('#coffee-search'); //adding this for bullet pt 4
 var addBtn = document.getElementById("add"); //kh - grabbing add button
 
-tbody.innerHTML = renderCoffees(coffees);
+coffeesDiv.innerHTML = renderCoffees(coffees);
 
 roastSelection.addEventListener('change', updateCoffees);
 asTyped.addEventListener('input', searchCoffees);
@@ -78,25 +81,26 @@ submitButton.addEventListener('click', searchCoffees);
 
 addBtn.addEventListener("click", function(e) {
     e.preventDefault();
-    var localStCoffeeArray = coffees;
+
     var bonusInput = document.querySelector('#bonus-coffee-input').value;
     var bonusRoastType = document.querySelector('#bonus-roast-selection').value;
-    // coffees.push({id: (coffees.length + 1), name: bonusInput, roast: bonusRoastType});
-    localStCoffeeArray.push({id: (coffees.length + 1), name: bonusInput, roast: bonusRoastType});
+    // if (localStorage.getItem('newCoffeesArray')) {}
 
-    localStorage.setItem('newCoffeesArray', JSON.stringify(localStCoffeeArray));
-    JSON.parse(localStorage.getItem('newCoffeesArray'));
+    coffees.push({id: (coffees.length + 1), name: bonusInput, roast: bonusRoastType});
 
-    tbody.innerHTML = renderCoffees(JSON.parse(localStorage.getItem('newCoffeesArray')));
+    localStorage.setItem('newCoffeesArray', JSON.stringify(coffees));
+    var test = JSON.parse(localStorage.getItem('newCoffeesArray'));
+
+    coffeesDiv.innerHTML = renderCoffees(test);
 })
 
 // var bonusInput2 = bonusInput.value;
 // var bonusRoastType2 = bonusRoastType.value;
 // coffees.push({id: (coffees.length + 1), name: bonusInput2, roast: bonusRoastType2});
-// tbody.innerHTML = renderCoffees(coffees);
+// coffeesDiv.innerHTML = renderCoffees(coffees);
 // var localSt = [];
 // localSt = coffees.push({id: (coffees.length + 1), name: bonusInput2, roast: bonusRoastType2});
 // localStorage.setItem('localSt', JSON.stringify(coffees[coffees.length -1]));
 // console.log(localSt);
 // var retrievedObj = localStorage.getItem('localSt');
-// tbody.innerHTML = renderCoffees(coffees);
+// coffeesDiv.innerHTML = renderCoffees(coffees);
