@@ -11,9 +11,6 @@ function renderCoffee(coffee) {
 }
 
 function renderCoffees(coffees) {
-    if (localStorage.getItem('newCoffeesArray')) {
-        coffees = JSON.parse(localStorage.getItem('newCoffeesArray'));
-    }
     var html = '';
     for(var i = 0; i <= coffees.length - 1 ; i++) {
         html += renderCoffee(coffees[i]);
@@ -65,6 +62,10 @@ var coffees = [
     {id: 14, name: 'French', roast: 'dark'},
 ];
 
+if (localStorage.getItem('newCoffeesArray')) {
+    coffees = JSON.parse(localStorage.getItem('newCoffeesArray'));
+}
+
 var coffeesDiv = document.querySelector('#coffees');
 var submitButton = document.querySelector('#submit');
 var roastSelection = document.querySelector('#roast-selection');
@@ -77,14 +78,11 @@ roastSelection.addEventListener('change', updateCoffees);
 asTyped.addEventListener('input', searchCoffees);
 submitButton.addEventListener('click', searchCoffees);
 
-
-
 addBtn.addEventListener("click", function(e) {
     e.preventDefault();
 
     var bonusInput = document.querySelector('#bonus-coffee-input').value;
     var bonusRoastType = document.querySelector('#bonus-roast-selection').value;
-    // if (localStorage.getItem('newCoffeesArray')) {}
 
     coffees.push({id: (coffees.length + 1), name: bonusInput, roast: bonusRoastType});
 
@@ -92,15 +90,4 @@ addBtn.addEventListener("click", function(e) {
     var test = JSON.parse(localStorage.getItem('newCoffeesArray'));
 
     coffeesDiv.innerHTML = renderCoffees(test);
-})
-
-// var bonusInput2 = bonusInput.value;
-// var bonusRoastType2 = bonusRoastType.value;
-// coffees.push({id: (coffees.length + 1), name: bonusInput2, roast: bonusRoastType2});
-// coffeesDiv.innerHTML = renderCoffees(coffees);
-// var localSt = [];
-// localSt = coffees.push({id: (coffees.length + 1), name: bonusInput2, roast: bonusRoastType2});
-// localStorage.setItem('localSt', JSON.stringify(coffees[coffees.length -1]));
-// console.log(localSt);
-// var retrievedObj = localStorage.getItem('localSt');
-// coffeesDiv.innerHTML = renderCoffees(coffees);
+});
